@@ -24,6 +24,7 @@
         iii. STYLE PAGE - CSS khusus untuk halaman tertentu
     ============================================ --}}
     @stack('styles')
+    @yield('style_page')
 </head>
 <body>
     <div class="container-scroller">
@@ -99,6 +100,12 @@
                             <i class="mdi mdi-book-open-page-variant menu-icon"></i>
                         </a>
                     </li>
+                    <li class="nav-item {{ Request::is('barang*') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('barang.index') }}">
+                            <span class="menu-title">Barang</span>
+                            <i class="mdi mdi-package-variant menu-icon"></i>
+                        </a>
+                    </li>
                 </ul>
             </nav>
 
@@ -137,5 +144,6 @@
         ix. JAVASCRIPT PAGE - JS khusus untuk halaman tertentu
     ============================================ --}}
     @stack('scripts')
+    @yield('javascript_page')
 </body>
 </html>

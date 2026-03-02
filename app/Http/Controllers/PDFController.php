@@ -56,4 +56,41 @@ class PDFController extends Controller
         
         return $pdf->download('kategori-' . $kategori->nama_kategori . '.pdf');
     }
+
+    /**
+     * Generate Sertifikat PDF (Landscape A4)
+     */
+    public function exportSertifikat()
+    {
+        $data = [
+            'nama' => auth()->user()->name,
+            'tanggal' => date('d F Y'),
+            'nomor_sertifikat' => 'CERT/' . date('Y') . '/' . str_pad(rand(1, 9999), 4, '0', STR_PAD_LEFT),
+        ];
+        
+        $pdf = Pdf::loadView('pdf.sertifikat', $data)
+                  ->setPaper('a4', 'landscape'); // Set ke landscape
+        
+        return $pdf->download('sertifikat-' . date('Y-m-d') . '.pdf');
+    }
+
+    /**
+     * Generate Undangan PDF (Portrait A4 dengan Header)
+     */
+    public function exportUndangan()
+    {
+        $data = [
+            'penerima' => auth()->user()->name,
+            'tanggal_acara' => date('d F Y', strtotime('+7 days')),
+            'waktu' => '09:00 - 12:00 WIB',
+            'tempat' => 'Aula Fakultas Ilmu Komputer',
+            'nomor_surat' => 'UND/FIK/' . date('Y') . '/' . str_pad(rand(1, 999), 3, '0', STR_PAD_LEFT),
+            'tanggal_surat' => date('d F Y'),
+        ];
+        
+        $pdf = Pdf::loadView('pdf.undangan', $data)
+                  ->setPaper('a4', 'portrait'); // Set ke portrait
+        
+        return $pdf->download('undangan-' . date('Y-m-d') . '.pdf');
+    }
 }

@@ -66,7 +66,7 @@
 </head>
 <body>
     <div class="header">
-        <h1>LAPORAN DATA BUKU</h1>
+        <h1>LAPORAN DATA BUKU GAMBAR</h1>
         <p>Sistem Informasi Perpustakaan</p>
         <p>Tanggal Cetak: {{ date('d F Y') }}</p>
     </div>

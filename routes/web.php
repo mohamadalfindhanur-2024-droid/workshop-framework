@@ -5,6 +5,7 @@ use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\BukuController;
 use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\PDFController;
+use App\Http\Controllers\BarangController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -23,6 +24,10 @@ Route::post('auth/verify-otp', [GoogleController::class, 'verifyOTP'])->name('ot
 Route::middleware(['auth'])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     
+    // Barang Routes
+    Route::get('/barang', [BarangController::class, 'index'])->name('barang.index');
+    Route::post('/barang/cetak-label', [BarangController::class, 'cetakLabel'])->name('barang.cetak');
+    
     // Kategori Routes
     Route::resource('kategori', KategoriController::class);
     
@@ -34,6 +39,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('export/buku/{id}', [PDFController::class, 'exportBukuDetail'])->name('export.buku.detail');
     Route::get('export/kategori', [PDFController::class, 'exportKategori'])->name('export.kategori');
     Route::get('export/kategori/{id}', [PDFController::class, 'exportKategoriDetail'])->name('export.kategori.detail');
+    Route::get('export/sertifikat', [PDFController::class, 'exportSertifikat'])->name('export.sertifikat');
+    Route::get('export/undangan', [PDFController::class, 'exportUndangan'])->name('export.undangan');
     
     // Logout Route
     Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
