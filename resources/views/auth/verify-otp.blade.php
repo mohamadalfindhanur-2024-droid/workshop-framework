@@ -50,7 +50,7 @@
                                 </div>
                             @endif
                             
-                            <form class="pt-3" method="POST" action="{{ route('otp.verify') }}">
+                            <form id="form-otp" class="pt-3" method="POST" action="{{ route('otp.verify') }}">
                                 @csrf
                                 <div class="form-group">
                                     <label for="otp">Kode OTP (6 digit)</label>
@@ -65,8 +65,12 @@
                                     </small>
                                 </div>
                                 <div class="mt-3">
-                                    <button type="submit" class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn">
-                                        VERIFIKASI
+                                    <button type="button" id="btn-otp" class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn">
+                                        <span id="btn-otp-text">VERIFIKASI</span>
+                                        <span id="btn-otp-spinner" class="d-none">
+                                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                            Memverifikasi...
+                                        </span>
                                     </button>
                                 </div>
                                 <div class="my-2 d-flex justify-content-between align-items-center">
@@ -84,5 +88,18 @@
     <script src="{{ asset('assets/js/off-canvas.js') }}"></script>
     <script src="{{ asset('assets/js/hoverable-collapse.js') }}"></script>
     <script src="{{ asset('assets/js/misc.js') }}"></script>
+    <script>
+        document.getElementById('btn-otp').addEventListener('click', function() {
+            const form = document.getElementById('form-otp');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+            document.getElementById('btn-otp-text').classList.add('d-none');
+            document.getElementById('btn-otp-spinner').classList.remove('d-none');
+            this.disabled = true;
+            form.submit();
+        });
+    </script>
 </body>
 </html>

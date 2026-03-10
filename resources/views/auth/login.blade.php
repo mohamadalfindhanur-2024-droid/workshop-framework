@@ -50,7 +50,7 @@
                                 </div>
                             @endif
                             
-                            <form class="pt-3" method="POST" action="{{ route('login') }}">
+                            <form id="form-login" class="pt-3" method="POST" action="{{ route('login') }}">
                                 @csrf
                                 
                                 <div class="form-group">
@@ -86,8 +86,12 @@
                                 </div>
                                 
                                 <div class="mt-3 d-grid gap-2">
-                                    <button type="submit" class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn">
-                                        SIGN IN
+                                    <button type="button" id="btn-login" class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn">
+                                        <span id="btn-login-text">SIGN IN</span>
+                                        <span id="btn-login-spinner" class="d-none">
+                                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                            Memproses...
+                                        </span>
                                     </button>
                                 </div>
                                 
@@ -129,5 +133,18 @@
     <script src="{{ asset('assets/vendors/js/vendor.bundle.base.js') }}"></script>
     <script src="{{ asset('assets/js/off-canvas.js') }}"></script>
     <script src="{{ asset('assets/js/misc.js') }}"></script>
+    <script>
+        document.getElementById('btn-login').addEventListener('click', function() {
+            const form = document.getElementById('form-login');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+            document.getElementById('btn-login-text').classList.add('d-none');
+            document.getElementById('btn-login-spinner').classList.remove('d-none');
+            this.disabled = true;
+            form.submit();
+        });
+    </script>
 </body>
 </html>

@@ -34,7 +34,7 @@
                     </div>
                 @endif
 
-                <form action="{{ route('buku.update', $buku->idbuku) }}" method="POST" class="forms-sample">
+                <form id="form-buku-edit" action="{{ route('buku.update', $buku->idbuku) }}" method="POST" class="forms-sample">
                     @csrf
                     @method('PUT')
                     <div class="form-group">
@@ -67,15 +67,35 @@
                                placeholder="Masukkan nama pengarang" 
                                value="{{ old('pengarang', $buku->pengarang) }}" required>
                     </div>
-                    <button type="submit" class="btn btn-gradient-primary me-2">
-                        <i class="mdi mdi-content-save"></i> Update
-                    </button>
-                    <a href="{{ route('buku.index') }}" class="btn btn-light">
-                        <i class="mdi mdi-arrow-left"></i> Kembali
-                    </a>
                 </form>
+                <button type="button" id="btn-update" class="btn btn-gradient-primary me-2">
+                    <span id="btn-update-text"><i class="mdi mdi-content-save"></i> Update</span>
+                    <span id="btn-update-spinner" class="d-none">
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        Menyimpan...
+                    </span>
+                </button>
+                <a href="{{ route('buku.index') }}" class="btn btn-light">
+                    <i class="mdi mdi-arrow-left"></i> Kembali
+                </a>
             </div>
         </div>
     </div>
 </div>
+@endsection
+
+@section('javascript_page')
+<script>
+    document.getElementById('btn-update').addEventListener('click', function() {
+        const form = document.getElementById('form-buku-edit');
+        if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
+        }
+        document.getElementById('btn-update-text').classList.add('d-none');
+        document.getElementById('btn-update-spinner').classList.remove('d-none');
+        this.disabled = true;
+        form.submit();
+    });
+</script>
 @endsection

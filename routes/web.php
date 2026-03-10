@@ -27,6 +27,8 @@ Route::middleware(['auth'])->group(function () {
     // Barang Routes
     Route::get('/barang', [BarangController::class, 'index'])->name('barang.index');
     Route::post('/barang/cetak-label', [BarangController::class, 'cetakLabel'])->name('barang.cetak');
+    Route::get('/barang/form-html', [BarangController::class, 'formHtml'])->name('barang.form-html');
+    Route::get('/barang/form-datatable', [BarangController::class, 'formDatatable'])->name('barang.form-datatable');
     
     // Kategori Routes
     Route::resource('kategori', KategoriController::class);
@@ -44,4 +46,9 @@ Route::middleware(['auth'])->group(function () {
     
     // Logout Route
     Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
+
+    // Kota Select Route
+    Route::get('/kota', function () {
+        return view('kota.index');
+    })->name('kota.index');
 });
