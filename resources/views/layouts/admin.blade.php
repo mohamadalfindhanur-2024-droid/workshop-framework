@@ -106,6 +106,48 @@
                             <i class="mdi mdi-map-marker menu-icon"></i>
                         </a>
                     </li>
+                    <li class="nav-item {{ Request::is('wilayah*') ? 'active' : '' }}">
+                        <a class="nav-link" data-bs-toggle="collapse" href="#wilayah-menu" aria-expanded="{{ Request::is('wilayah*') ? 'true' : 'false' }}">
+                            <span class="menu-title">Wilayah</span>
+                            <i class="menu-arrow"></i>
+                            <i class="mdi mdi-map-marker-multiple menu-icon"></i>
+                        </a>
+                        <div class="collapse {{ Request::is('wilayah*') ? 'show' : '' }}" id="wilayah-menu">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item">
+                                    <a class="nav-link {{ Request::routeIs('wilayah.ajax') ? 'active' : '' }}" href="{{ route('wilayah.ajax') }}">
+                                        Ajax jQuery
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link {{ Request::routeIs('wilayah.axios') ? 'active' : '' }}" href="{{ route('wilayah.axios') }}">
+                                        Axios
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item {{ Request::is('kasir*') ? 'active' : '' }}">
+                        <a class="nav-link" data-bs-toggle="collapse" href="#kasir-menu" aria-expanded="{{ Request::is('kasir*') ? 'true' : 'false' }}">
+                            <span class="menu-title">Kasir</span>
+                            <i class="menu-arrow"></i>
+                            <i class="mdi mdi-cash-register menu-icon"></i>
+                        </a>
+                        <div class="collapse {{ Request::is('kasir*') ? 'show' : '' }}" id="kasir-menu">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item">
+                                    <a class="nav-link {{ Request::routeIs('kasir.ajax') ? 'active' : '' }}" href="{{ route('kasir.ajax') }}">
+                                        Ajax jQuery
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link {{ Request::routeIs('kasir.axios') ? 'active' : '' }}" href="{{ route('kasir.axios') }}">
+                                        Axios
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
                     <li class="nav-item {{ Request::is('barang*') ? 'active' : '' }}">
                         <a class="nav-link" data-bs-toggle="collapse" href="#barang-menu" aria-expanded="{{ Request::is('barang*') ? 'true' : 'false' }}">
                             <span class="menu-title">Barang</span>
@@ -157,18 +199,12 @@
         </div>
     </div>
 
-    {{-- ============================================
-        viii. JAVASCRIPT GLOBAL - JS yang digunakan di semua halaman
-    ============================================ --}}
     <script src="{{ asset('assets/vendors/js/vendor.bundle.base.js') }}"></script>
     <script src="{{ asset('assets/js/off-canvas.js') }}"></script>
     <script src="{{ asset('assets/js/misc.js') }}"></script>
     <script src="{{ asset('assets/js/settings.js') }}"></script>
     <script src="{{ asset('assets/js/todolist.js') }}"></script>
     
-    {{-- ============================================
-        ix. JAVASCRIPT PAGE - JS khusus untuk halaman tertentu
-    ============================================ --}}
     @stack('scripts')
     @yield('javascript_page')
 </body>

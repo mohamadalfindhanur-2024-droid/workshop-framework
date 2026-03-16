@@ -6,6 +6,8 @@ use App\Http\Controllers\BukuController;
 use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\BarangController;
+use App\Http\Controllers\WilayahController;
+use App\Http\Controllers\KasirController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -51,4 +53,17 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/kota', function () {
         return view('kota.index');
     })->name('kota.index');
+
+    // Wilayah Routes
+    Route::get('/wilayah/ajax',  [WilayahController::class, 'ajax'])->name('wilayah.ajax');
+    Route::get('/wilayah/axios', [WilayahController::class, 'axios'])->name('wilayah.axios');
+    Route::get('/wilayah/kota',      [WilayahController::class, 'getKota'])->name('wilayah.kota');
+    Route::get('/wilayah/kecamatan', [WilayahController::class, 'getKecamatan'])->name('wilayah.kecamatan');
+    Route::get('/wilayah/kelurahan', [WilayahController::class, 'getKelurahan'])->name('wilayah.kelurahan');
+
+    // Kasir Routes
+    Route::get('/kasir/ajax',  [KasirController::class, 'ajax'])->name('kasir.ajax');
+    Route::get('/kasir/axios', [KasirController::class, 'axios'])->name('kasir.axios');
+    Route::get('/kasir/cari-barang', [KasirController::class, 'cariBarang'])->name('kasir.cari-barang');
+    Route::post('/kasir/bayar',      [KasirController::class, 'bayar'])->name('kasir.bayar');
 });
