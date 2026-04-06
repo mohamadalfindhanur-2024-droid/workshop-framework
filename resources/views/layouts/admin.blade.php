@@ -145,6 +145,11 @@
                                         Axios
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link {{ Request::routeIs('checkout.marketplace') ? 'active' : '' }}" href="{{ route('checkout.marketplace') }}">
+                                        Checkout Marketplace
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </li>

@@ -8,6 +8,7 @@ use App\Http\Controllers\PDFController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\WilayahController;
 use App\Http\Controllers\KasirController;
+use App\Http\Controllers\CheckoutController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -22,6 +23,9 @@ Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallba
 // OTP Verification Routes
 Route::get('auth/verify-otp', [GoogleController::class, 'showOTPForm'])->name('otp.verify.form');
 Route::post('auth/verify-otp', [GoogleController::class, 'verifyOTP'])->name('otp.verify');
+
+// Midtrans Callback (public endpoint)
+Route::post('/midtrans/callback', [CheckoutController::class, 'midtransCallback'])->name('midtrans.callback');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -66,4 +70,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/kasir/axios', [KasirController::class, 'axios'])->name('kasir.axios');
     Route::get('/kasir/cari-barang', [KasirController::class, 'cariBarang'])->name('kasir.cari-barang');
     Route::post('/kasir/bayar',      [KasirController::class, 'bayar'])->name('kasir.bayar');
+
+    // Checkout Marketplace + Payment Simulator Routes
+    Route::get('/checkout/marketplace', [CheckoutController::class, 'index'])->name('checkout.marketplace');
+    Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
+    Route::get('/checkout/status/{transaksi}', [CheckoutController::class, 'status'])->name('checkout.status');
+    Route::post('/checkout/simulate-paid/{transaksi}', [CheckoutController::class, 'simulatePaid'])->name('checkout.simulate-paid');
 });
