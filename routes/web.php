@@ -9,6 +9,7 @@ use App\Http\Controllers\BarangController;
 use App\Http\Controllers\WilayahController;
 use App\Http\Controllers\KasirController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\CustomerController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -76,4 +77,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
     Route::get('/checkout/status/{transaksi}', [CheckoutController::class, 'status'])->name('checkout.status');
     Route::post('/checkout/simulate-paid/{transaksi}', [CheckoutController::class, 'simulatePaid'])->name('checkout.simulate-paid');
+
+    // Customer Camera & QR Scan
+    Route::get('/customer', [CustomerController::class, 'index'])->name('customer.index');
+    Route::post('/customer', [CustomerController::class, 'store'])->name('customer.store');
+    Route::post('/customer/verify-order', [CustomerController::class, 'verifyOrderByQr'])->name('customer.verify-order');
 });

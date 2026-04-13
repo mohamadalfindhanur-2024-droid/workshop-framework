@@ -286,6 +286,23 @@ class CheckoutController extends Controller
             ];
         }, $items);
 
+        $itemTotal = 0;
+        foreach ($itemDetails as $detail) {
+            $itemTotal += ((int) $detail['price']) * ((int) $detail['quantity']);
+        }
+
+        $difference = $grossAmount - $itemTotal;
+        if ($difference > 0) {
+            $itemDetails[] = [
+                'id' => 'FEE',
+                'price' => $difference,
+                'quantity' => 1,
+                'name' => 'Biaya Layanan',
+            ];
+        } elseif ($difference < 0) {
+            $grossAmount = $itemTotal;
+        }
+
         $requestBody = [
             'transaction_details' => [
                 'order_id' => $orderId,

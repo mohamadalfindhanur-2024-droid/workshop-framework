@@ -175,6 +175,17 @@
                         <i class="mdi mdi-refresh"></i> Refresh Status
                     </button>
                 </div>
+
+                <div class="mt-4 p-3 border rounded bg-light d-none" id="paid-qr-section">
+                    <h5 class="mb-2">QR ID Pesanan</h5>
+                    <p class="mb-2">QR ini berisi <strong>ID pesanan</strong> dan bisa dipindai dari menu Customer.</p>
+                    <div class="text-center">
+                        <img id="paid-qr-image" alt="QR ID Pesanan" class="img-fluid border rounded p-2" style="max-width:220px;">
+                    </div>
+                    <div class="mt-2 text-center">
+                        <strong>ID Pesanan:</strong> <span id="paid-order-id">-</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -258,6 +269,10 @@
         const expired = status === 'expired';
         const failed = status === 'failed';
         document.getElementById('btn-simulate-paid').disabled = paid || expired || failed;
+
+        if (paid) {
+            document.getElementById('paid-qr-section').classList.remove('d-none');
+        }
     }
 
     function startPolling() {
@@ -367,6 +382,10 @@
             document.getElementById('res-expired').textContent = new Date(data.expires_at).toLocaleString('id-ID');
             document.getElementById('btn-simulate-paid').style.display = data.is_simulator ? 'inline-block' : 'none';
 
+            const paidQrImage = document.getElementById('paid-qr-image');
+            document.getElementById('paid-order-id').textContent = data.id_transaksi;
+            paidQrImage.src = 'https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=' + encodeURIComponent(String(data.id_transaksi));
+
             const isQris = data.metode_pembayaran === 'qris';
             const qrisImage = document.getElementById('qris-image');
             const vaRow = document.getElementById('res-va-row');
@@ -391,6 +410,11 @@
             }
 
             updateStatusUI(data.status_order);
+            if (data.status_order === 'paid') {
+                document.getElementById('paid-qr-section').classList.remove('d-none');
+            } else {
+                document.getElementById('paid-qr-section').classList.add('d-none');
+            }
             startPolling();
             startCountdown();
             window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });

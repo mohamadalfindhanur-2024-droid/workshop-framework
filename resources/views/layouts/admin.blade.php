@@ -150,6 +150,11 @@
                                         Checkout Marketplace
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link {{ Request::routeIs('customer.index') ? 'active' : '' }}" href="{{ route('customer.index') }}">
+                                        Customer
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </li>
