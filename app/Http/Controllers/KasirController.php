@@ -20,6 +20,11 @@ class KasirController extends Controller
         return view('kasir.axios');
     }
 
+    public function scanner()
+    {
+        return view('kasir.scanner');
+    }
+
     public function cariBarang(Request $request)
     {
         $kode = $request->kode;

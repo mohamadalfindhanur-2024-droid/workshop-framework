@@ -69,6 +69,7 @@ Route::middleware(['auth'])->group(function () {
     // Kasir Routes
     Route::get('/kasir/ajax',  [KasirController::class, 'ajax'])->name('kasir.ajax');
     Route::get('/kasir/axios', [KasirController::class, 'axios'])->name('kasir.axios');
+    Route::get('/kasir/scanner', [KasirController::class, 'scanner'])->name('kasir.scanner');
     Route::get('/kasir/cari-barang', [KasirController::class, 'cariBarang'])->name('kasir.cari-barang');
     Route::post('/kasir/bayar',      [KasirController::class, 'bayar'])->name('kasir.bayar');
 
@@ -77,9 +78,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
     Route::get('/checkout/status/{transaksi}', [CheckoutController::class, 'status'])->name('checkout.status');
     Route::post('/checkout/simulate-paid/{transaksi}', [CheckoutController::class, 'simulatePaid'])->name('checkout.simulate-paid');
+    Route::get('/struk/{transaksi}/cetak', [CheckoutController::class, 'cetakStruk'])->name('struk.cetak');
 
     // Customer Camera & QR Scan
     Route::get('/customer', [CustomerController::class, 'index'])->name('customer.index');
+    Route::get('/customer/scan', [CustomerController::class, 'scan'])->name('customer.scan');
+    Route::get('/customer/order-history', [CustomerController::class, 'orderHistory'])->name('customer.order-history');
     Route::post('/customer', [CustomerController::class, 'store'])->name('customer.store');
     Route::post('/customer/verify-order', [CustomerController::class, 'verifyOrderByQr'])->name('customer.verify-order');
 });

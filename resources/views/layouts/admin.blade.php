@@ -150,13 +150,38 @@
                                         Checkout Marketplace
                                     </a>
                                 </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="nav-item {{ Request::routeIs('customer.*') ? 'active' : '' }}">
+                        <a class="nav-link" data-bs-toggle="collapse" href="#customer-menu" aria-expanded="{{ Request::routeIs('customer.*') ? 'true' : 'false' }}">
+                            <span class="menu-title">Customer</span>
+                            <i class="menu-arrow"></i>
+                            <i class="mdi mdi-account-multiple menu-icon"></i>
+                        </a>
+                        <div class="collapse {{ Request::routeIs('customer.*') ? 'show' : '' }}" id="customer-menu">
+                            <ul class="nav flex-column sub-menu">
                                 <li class="nav-item">
                                     <a class="nav-link {{ Request::routeIs('customer.index') ? 'active' : '' }}" href="{{ route('customer.index') }}">
-                                        Customer
+                                        <i class="mdi mdi-form-textbox me-1"></i> Form Data Customer
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link {{ Request::routeIs('customer.order-history') ? 'active' : '' }}" href="{{ route('customer.order-history') }}">
+                                        <i class="mdi mdi-history me-1"></i> Riwayat Pesanan & QR
                                     </a>
                                 </li>
                             </ul>
                         </div>
+                    </li>
+
+                    <li class="nav-item {{ Request::routeIs('customer.scan') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('customer.scan') }}">
+                            <span class="menu-title">
+                                <i class="mdi mdi-qrcode-scan me-1"></i> Vendor - Scan QR Pesanan
+                            </span>
+                        </a>
                     </li>
                     <li class="nav-item {{ Request::is('barang*') ? 'active' : '' }}">
                         <a class="nav-link" data-bs-toggle="collapse" href="#barang-menu" aria-expanded="{{ Request::is('barang*') ? 'true' : 'false' }}">

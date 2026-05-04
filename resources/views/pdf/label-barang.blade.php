@@ -24,8 +24,8 @@
   }
 
   td {
-      width: 38mm;
-      height: 18mm;
+      width: 43mm;
+      height: 28mm;
       background: #ffffff;
       border: 0.3px solid #ffffff;
       border-radius: 4px;
@@ -44,6 +44,7 @@
       font-size: 7pt;
       font-weight: bold;
       line-height: 1.1;
+      margin-top: 0.4mm;
   }
 
   .kode {
@@ -55,6 +56,22 @@
       font-size: 9pt;
       font-weight: bold;
       color: #198754;
+  }
+
+  .barcode {
+      margin-top: 1mm;
+      height: 15mm;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 2.5mm;
+  }
+
+  .barcode img {
+      width: 100%;
+      height: 100%;
+      display: block;
   }
 
   .footer {
@@ -87,6 +104,10 @@
     $pageNum   = 0;
 @endphp
 
+@php
+    $barcodeGenerator = new \Picqer\Barcode\BarcodeGeneratorSVG();
+@endphp
+
 @while($itemIdx < $itemCount)
     @php
         $pageNum++;
@@ -104,10 +125,17 @@
                             <td class="empty"></td>
                         @else
                             @php $item = $items[$itemIdx]; $itemIdx++; @endphp
+                            @php
+                                $barcodeSvg = $barcodeGenerator->getBarcode($item->id_barang, $barcodeGenerator::TYPE_CODE_128, 5, 80);
+                                $barcodeDataUri = 'data:image/svg+xml;base64,' . base64_encode($barcodeSvg);
+                            @endphp
                             <td>
                                 <div class="kode">{{ $item->id_barang }}</div>
                                 <div class="nama">
                                     {{ mb_strlen($item->nama) > 20 ? mb_substr($item->nama, 0, 20).'…' : $item->nama }}
+                                </div>
+                                <div class="barcode">
+                                    <img src="{{ $barcodeDataUri }}" alt="Barcode {{ $item->id_barang }}">
                                 </div>
                                 <div class="harga">Rp {{ number_format($item->harga, 0, ',', '.') }}</div>
                             </td>

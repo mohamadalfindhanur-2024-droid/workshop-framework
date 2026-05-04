@@ -169,6 +169,7 @@
                     <table class="table table-bordered table-sm">
                         <thead>
                             <tr>
+                                <th>Foto</th>
                                 <th>Nama</th>
                                 <th>Kota</th>
                                 <th>Kecamatan</th>
@@ -178,6 +179,13 @@
                         <tbody>
                         @foreach($customers as $item)
                             <tr>
+                                <td>
+                                    @if($item->foto_path)
+                                        <img src="{{ asset('storage/' . $item->foto_path) }}" alt="Foto {{ $item->nama }}" style="width:48px;height:48px;object-fit:cover;border-radius:8px;">
+                                    @else
+                                        -
+                                    @endif
+                                </td>
                                 <td>{{ $item->nama }}</td>
                                 <td>{{ $item->kota }}</td>
                                 <td>{{ $item->kecamatan }}</td>

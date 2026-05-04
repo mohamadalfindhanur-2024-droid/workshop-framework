@@ -185,6 +185,11 @@
                     <div class="mt-2 text-center">
                         <strong>ID Pesanan:</strong> <span id="paid-order-id">-</span>
                     </div>
+                    <div class="mt-3 text-center">
+                        <a id="btn-cetak-struk" href="#" class="btn btn-gradient-success" target="_blank">
+                            <i class="mdi mdi-printer"></i> Cetak Struk
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -261,6 +266,28 @@
         return String(status || 'pending').toUpperCase();
     }
 
+    function playBeep(frequency = 800, duration = 200) {
+        try {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+
+            oscillator.frequency.value = frequency;
+            oscillator.type = 'sine';
+
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration / 1000);
+
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + duration / 1000);
+        } catch (e) {
+            console.log('Audio not supported');
+        }
+    }
+
     function updateStatusUI(status) {
         const el = document.getElementById('res-status');
         el.className = statusClass(status);
@@ -272,6 +299,7 @@
 
         if (paid) {
             document.getElementById('paid-qr-section').classList.remove('d-none');
+            playBeep(800, 300);
         }
     }
 
@@ -384,6 +412,7 @@
 
             const paidQrImage = document.getElementById('paid-qr-image');
             document.getElementById('paid-order-id').textContent = data.id_transaksi;
+            document.getElementById('btn-cetak-struk').href = '{{ url('/struk') }}/' + data.id_transaksi + '/cetak';
             paidQrImage.src = 'https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=' + encodeURIComponent(String(data.id_transaksi));
 
             const isQris = data.metode_pembayaran === 'qris';

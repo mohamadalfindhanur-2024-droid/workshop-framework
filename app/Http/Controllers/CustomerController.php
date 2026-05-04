@@ -63,7 +63,7 @@ class CustomerController extends Controller
             ], 422);
         }
 
-        $transaksi = Transaksi::find($digits);
+        $transaksi = Transaksi::with('detail')->find($digits);
         if (!$transaksi) {
             return response()->json([
                 'code' => 404,
@@ -81,9 +81,31 @@ class CustomerController extends Controller
                 'id' => $transaksi->id,
                 'kode_transaksi' => $transaksi->kode_transaksi,
                 'status_order' => $transaksi->status_order,
+                'status_bayar' => $transaksi->status_order === 'paid' ? 'LUNAS' : strtoupper($transaksi->status_order ?? 'pending'),
+                'tanggal' => optional($transaksi->created_at)->format('d/m/Y H:i:s'),
                 'total' => $transaksi->total,
+                'items' => $transaksi->detail->map(function ($item) {
+                    return [
+                        'id_barang' => $item->id_barang,
+                        'nama_barang' => $item->nama_barang,
+                        'jumlah' => $item->jumlah,
+                        'harga' => $item->harga,
+                        'subtotal' => $item->subtotal,
+                    ];
+                })->values(),
             ],
         ]);
+    }
+
+    public function scan()
+    {
+        return view('customer.scan');
+    }
+
+    public function orderHistory()
+    {
+        $transaksi = Transaksi::with('detail')->latest()->paginate(10);
+        return view('customer.order-history', compact('transaksi'));
     }
 
     private function saveBase64Image(string $base64): ?string

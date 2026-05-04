@@ -462,4 +462,15 @@ class CheckoutController extends Controller
         $expected = hash('sha512', $orderId . $statusCode . $grossAmount . $serverKey);
         return hash_equals($expected, $signature);
     }
+
+    public function cetakStruk($id)
+    {
+        $transaksi = Transaksi::with('detail')->findOrFail($id);
+        
+        if ($transaksi->status_order !== 'paid') {
+            return redirect()->back()->with('error', 'Hanya transaksi yang sudah dibayar yang bisa dicetak.');
+        }
+
+        return view('struk.cetak', compact('transaksi'));
+    }
 }
