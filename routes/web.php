@@ -86,4 +86,18 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/customer/order-history', [CustomerController::class, 'orderHistory'])->name('customer.order-history');
     Route::post('/customer', [CustomerController::class, 'store'])->name('customer.store');
     Route::post('/customer/verify-order', [CustomerController::class, 'verifyOrderByQr'])->name('customer.verify-order');
+
+    // Kunjungan Toko (Modul 9)
+    Route::get('/kunjungan', [App\Http\Controllers\TokoController::class, 'index'])->name('kunjungan.index');
+    Route::post('/kunjungan', [App\Http\Controllers\TokoController::class, 'store'])->name('kunjungan.store');
+    Route::post('/kunjungan/{toko}/set-point', [App\Http\Controllers\TokoController::class, 'setPoint'])->name('kunjungan.setpoint');
+    Route::post('/kunjungan/verify', [App\Http\Controllers\TokoController::class, 'verifyVisit'])->name('kunjungan.verify');
+
+    // Alias route agar flow sama dengan contoh teman
+    Route::get('/kunjungan-toko', [App\Http\Controllers\TokoController::class, 'index']);
+    Route::get('/tambah-toko', [App\Http\Controllers\TokoController::class, 'create']);
+    Route::post('/tambah-toko', [App\Http\Controllers\TokoController::class, 'store']);
+    Route::get('/qrcode/{toko}', [App\Http\Controllers\TokoController::class, 'qrcode']);
+    Route::get('/api/toko/{barcode}', [App\Http\Controllers\TokoController::class, 'getToko']);
+    Route::get('/scan-kunjungan', [App\Http\Controllers\TokoController::class, 'scan']);
 });

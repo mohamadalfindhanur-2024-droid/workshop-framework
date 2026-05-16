@@ -154,6 +154,13 @@
                         </div>
                     </li>
 
+                    <li class="nav-item {{ Request::routeIs('kunjungan.*') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('kunjungan.index') }}">
+                            <span class="menu-title">Kunjungan Toko</span>
+                            <i class="mdi mdi-map-marker-radius menu-icon"></i>
+                        </a>
+                    </li>
+
                     <li class="nav-item {{ Request::routeIs('customer.*') ? 'active' : '' }}">
                         <a class="nav-link" data-bs-toggle="collapse" href="#customer-menu" aria-expanded="{{ Request::routeIs('customer.*') ? 'true' : 'false' }}">
                             <span class="menu-title">Customer</span>
